@@ -25,7 +25,12 @@ import { Route as AppBusRouteImport } from './routes/app.bus'
 import { Route as AppBooksRouteImport } from './routes/app.books'
 import { Route as AppAssistantRouteImport } from './routes/app.assistant'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminNotesRouteImport } from './routes/admin.notes'
+import { Route as AdminLostFoundRouteImport } from './routes/admin.lost-found'
 import { Route as AdminBusRouteImport } from './routes/admin.bus'
+import { Route as AdminBooksRouteImport } from './routes/admin.books'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
 const RoleRoute = RoleRouteImport.update({
@@ -108,9 +113,34 @@ const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNotesRoute = AdminNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLostFoundRoute = AdminLostFoundRouteImport.update({
+  id: '/lost-found',
+  path: '/lost-found',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminBusRoute = AdminBusRouteImport.update({
   id: '/bus',
   path: '/bus',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBooksRoute = AdminBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
@@ -128,7 +158,12 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/books': typeof AdminBooksRoute
   '/admin/bus': typeof AdminBusRoute
+  '/admin/lost-found': typeof AdminLostFoundRoute
+  '/admin/notes': typeof AdminNotesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
@@ -146,7 +181,12 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/books': typeof AdminBooksRoute
   '/admin/bus': typeof AdminBusRoute
+  '/admin/lost-found': typeof AdminLostFoundRoute
+  '/admin/notes': typeof AdminNotesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
@@ -167,7 +207,12 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
   '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/books': typeof AdminBooksRoute
   '/admin/bus': typeof AdminBusRoute
+  '/admin/lost-found': typeof AdminLostFoundRoute
+  '/admin/notes': typeof AdminNotesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/api/chat': typeof ApiChatRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
@@ -189,7 +234,12 @@ export interface FileRouteTypes {
     | '/register'
     | '/role'
     | '/admin/announcements'
+    | '/admin/books'
     | '/admin/bus'
+    | '/admin/lost-found'
+    | '/admin/notes'
+    | '/admin/reports'
+    | '/api/chat'
     | '/app/announcements'
     | '/app/assistant'
     | '/app/books'
@@ -207,7 +257,12 @@ export interface FileRouteTypes {
     | '/register'
     | '/role'
     | '/admin/announcements'
+    | '/admin/books'
     | '/admin/bus'
+    | '/admin/lost-found'
+    | '/admin/notes'
+    | '/admin/reports'
+    | '/api/chat'
     | '/app/announcements'
     | '/app/assistant'
     | '/app/books'
@@ -227,7 +282,12 @@ export interface FileRouteTypes {
     | '/register'
     | '/role'
     | '/admin/announcements'
+    | '/admin/books'
     | '/admin/bus'
+    | '/admin/lost-found'
+    | '/admin/notes'
+    | '/admin/reports'
+    | '/api/chat'
     | '/app/announcements'
     | '/app/assistant'
     | '/app/books'
@@ -247,6 +307,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
   RoleRoute: typeof RoleRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -363,11 +424,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/notes': {
+      id: '/admin/notes'
+      path: '/notes'
+      fullPath: '/admin/notes'
+      preLoaderRoute: typeof AdminNotesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/lost-found': {
+      id: '/admin/lost-found'
+      path: '/lost-found'
+      fullPath: '/admin/lost-found'
+      preLoaderRoute: typeof AdminLostFoundRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/bus': {
       id: '/admin/bus'
       path: '/bus'
       fullPath: '/admin/bus'
       preLoaderRoute: typeof AdminBusRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/books': {
+      id: '/admin/books'
+      path: '/books'
+      fullPath: '/admin/books'
+      preLoaderRoute: typeof AdminBooksRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/announcements': {
@@ -382,13 +478,21 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
+  AdminBooksRoute: typeof AdminBooksRoute
   AdminBusRoute: typeof AdminBusRoute
+  AdminLostFoundRoute: typeof AdminLostFoundRoute
+  AdminNotesRoute: typeof AdminNotesRoute
+  AdminReportsRoute: typeof AdminReportsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAnnouncementsRoute: AdminAnnouncementsRoute,
+  AdminBooksRoute: AdminBooksRoute,
   AdminBusRoute: AdminBusRoute,
+  AdminLostFoundRoute: AdminLostFoundRoute,
+  AdminNotesRoute: AdminNotesRoute,
+  AdminReportsRoute: AdminReportsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -426,7 +530,18 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
   RoleRoute: RoleRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

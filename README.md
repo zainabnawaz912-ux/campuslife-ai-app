@@ -9,16 +9,16 @@ University students often use multiple platforms for announcements, study materi
 
  Features
  
-- 🤖 AI Assistant for student queries
-- 📝 Notes sharing and management
-- 📚 Book exchange platform
-- 🚌 Smart bus route and delay updates
-- 📢 Campus announcements
-- 🔍 Lost & Found reporting
-- 👤 Student profile management
-- 🌙 Dark mode support
-- 🔎 Global search functionality
-- 📱 Fully responsive design for mobile and desktop
+-  AI Assistant for student queries
+- Notes sharing and management
+- Book exchange platform
+- Smart bus route and delay updates
+-  Campus announcements
+-  Lost & Found reporting
+-  Student profile management
+- Dark mode support
+- Global search functionality
+- Fully responsive design for mobile and desktop
 
 Problem Statement
 

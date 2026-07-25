@@ -14,13 +14,19 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppNotesRouteImport } from './routes/app.notes'
 import { Route as AppLostFoundRouteImport } from './routes/app.lost-found'
 import { Route as AppBusRouteImport } from './routes/app.bus'
 import { Route as AppBooksRouteImport } from './routes/app.books'
+import { Route as AppAssistantRouteImport } from './routes/app.assistant'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as AdminBusRouteImport } from './routes/admin.bus'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
 const RoleRoute = RoleRouteImport.update({
   id: '/role',
@@ -47,6 +53,11 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +66,16 @@ const IndexRoute = IndexRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
 const AppNotesRoute = AppNotesRouteImport.update({
@@ -77,24 +98,45 @@ const AppBooksRoute = AppBooksRouteImport.update({
   path: '/books',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAssistantRoute = AppAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
+const AdminBusRoute = AdminBusRouteImport.update({
+  id: '/bus',
+  path: '/bus',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/bus': typeof AdminBusRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
   '/app/bus': typeof AppBusRoute
   '/app/lost-found': typeof AppLostFoundRoute
   '/app/notes': typeof AppNotesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -103,42 +145,59 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/bus': typeof AdminBusRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
   '/app/bus': typeof AppBusRoute
   '/app/lost-found': typeof AppLostFoundRoute
   '/app/notes': typeof AppNotesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/bus': typeof AdminBusRoute
   '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
   '/app/bus': typeof AppBusRoute
   '/app/lost-found': typeof AppLostFoundRoute
   '/app/notes': typeof AppNotesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/app'
     | '/forgot'
     | '/login'
     | '/register'
     | '/role'
+    | '/admin/announcements'
+    | '/admin/bus'
     | '/app/announcements'
+    | '/app/assistant'
     | '/app/books'
     | '/app/bus'
     | '/app/lost-found'
     | '/app/notes'
+    | '/app/profile'
+    | '/admin/'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -147,30 +206,42 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/role'
+    | '/admin/announcements'
+    | '/admin/bus'
     | '/app/announcements'
+    | '/app/assistant'
     | '/app/books'
     | '/app/bus'
     | '/app/lost-found'
     | '/app/notes'
+    | '/app/profile'
+    | '/admin'
     | '/app'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/app'
     | '/forgot'
     | '/login'
     | '/register'
     | '/role'
+    | '/admin/announcements'
+    | '/admin/bus'
     | '/app/announcements'
+    | '/app/assistant'
     | '/app/books'
     | '/app/bus'
     | '/app/lost-found'
     | '/app/notes'
+    | '/app/profile'
+    | '/admin/'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
@@ -215,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -227,6 +305,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/notes': {
@@ -257,6 +349,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBooksRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/assistant': {
+      id: '/app/assistant'
+      path: '/assistant'
+      fullPath: '/app/assistant'
+      preLoaderRoute: typeof AppAssistantRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/announcements': {
       id: '/app/announcements'
       path: '/announcements'
@@ -264,24 +363,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/admin/bus': {
+      id: '/admin/bus'
+      path: '/bus'
+      fullPath: '/admin/bus'
+      preLoaderRoute: typeof AdminBusRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/announcements': {
+      id: '/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
+  AdminBusRoute: typeof AdminBusRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
+  AdminBusRoute: AdminBusRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface AppRouteChildren {
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppAssistantRoute: typeof AppAssistantRoute
   AppBooksRoute: typeof AppBooksRoute
   AppBusRoute: typeof AppBusRoute
   AppLostFoundRoute: typeof AppLostFoundRoute
   AppNotesRoute: typeof AppNotesRoute
+  AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppAssistantRoute: AppAssistantRoute,
   AppBooksRoute: AppBooksRoute,
   AppBusRoute: AppBusRoute,
   AppLostFoundRoute: AppLostFoundRoute,
   AppNotesRoute: AppNotesRoute,
+  AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
@@ -289,6 +420,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,

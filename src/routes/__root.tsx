@@ -88,10 +88,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "CampusLife AI — One smart app for every student" },
       {
         property: "og:description",
-        content: "Notes, books, lost & found, bus updates, announcements and an AI assistant — all in one place.",
+        content: "CampusLife AI unifies notes, book exchange, lost & found, bus updates, announcements and an AI assistant for students, faculty and campus admins.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "CampusLife AI — One smart app for every student" },
+      { name: "twitter:description", content: "CampusLife AI unifies notes, book exchange, lost & found, bus updates, announcements and an AI assistant for students, faculty and campus admins." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74fbb277-262b-40d9-a105-e725b303d10b/id-preview-f7cae0f8--4984bc19-cdad-4d35-98be-ebd8639a2a26.lovable.app-1784958725350.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74fbb277-262b-40d9-a105-e725b303d10b/id-preview-f7cae0f8--4984bc19-cdad-4d35-98be-ebd8639a2a26.lovable.app-1784958725350.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

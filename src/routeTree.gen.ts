@@ -9,38 +9,351 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RoleRouteImport } from './routes/role'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppNotesRouteImport } from './routes/app.notes'
+import { Route as AppLostFoundRouteImport } from './routes/app.lost-found'
+import { Route as AppBusRouteImport } from './routes/app.bus'
+import { Route as AppBooksRouteImport } from './routes/app.books'
+import { Route as AppAssistantRouteImport } from './routes/app.assistant'
+import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminNotesRouteImport } from './routes/admin.notes'
+import { Route as AdminLostFoundRouteImport } from './routes/admin.lost-found'
+import { Route as AdminBusRouteImport } from './routes/admin.bus'
+import { Route as AdminBooksRouteImport } from './routes/admin.books'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
+const RoleRoute = RoleRouteImport.update({
+  id: '/role',
+  path: '/role',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotRoute = ForgotRouteImport.update({
+  id: '/forgot',
+  path: '/forgot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotesRoute = AppNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLostFoundRoute = AppLostFoundRouteImport.update({
+  id: '/lost-found',
+  path: '/lost-found',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusRoute = AppBusRouteImport.update({
+  id: '/bus',
+  path: '/bus',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBooksRoute = AppBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAssistantRoute = AppAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AppRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNotesRoute = AdminNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLostFoundRoute = AdminLostFoundRouteImport.update({
+  id: '/lost-found',
+  path: '/lost-found',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBusRoute = AdminBusRouteImport.update({
+  id: '/bus',
+  path: '/bus',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBooksRoute = AdminBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/forgot': typeof ForgotRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/role': typeof RoleRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/books': typeof AdminBooksRoute
+  '/admin/bus': typeof AdminBusRoute
+  '/admin/lost-found': typeof AdminLostFoundRoute
+  '/admin/notes': typeof AdminNotesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/api/chat': typeof ApiChatRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/assistant': typeof AppAssistantRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/bus': typeof AppBusRoute
+  '/app/lost-found': typeof AppLostFoundRoute
+  '/app/notes': typeof AppNotesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot': typeof ForgotRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/role': typeof RoleRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/books': typeof AdminBooksRoute
+  '/admin/bus': typeof AdminBusRoute
+  '/admin/lost-found': typeof AdminLostFoundRoute
+  '/admin/notes': typeof AdminNotesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/api/chat': typeof ApiChatRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/assistant': typeof AppAssistantRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/bus': typeof AppBusRoute
+  '/app/lost-found': typeof AppLostFoundRoute
+  '/app/notes': typeof AppNotesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin': typeof AdminIndexRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/forgot': typeof ForgotRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/role': typeof RoleRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/books': typeof AdminBooksRoute
+  '/admin/bus': typeof AdminBusRoute
+  '/admin/lost-found': typeof AdminLostFoundRoute
+  '/admin/notes': typeof AdminNotesRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/api/chat': typeof ApiChatRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/assistant': typeof AppAssistantRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/bus': typeof AppBusRoute
+  '/app/lost-found': typeof AppLostFoundRoute
+  '/app/notes': typeof AppNotesRoute
+  '/app/profile': typeof AppProfileRoute
+  '/admin/': typeof AdminIndexRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/forgot'
+    | '/login'
+    | '/register'
+    | '/role'
+    | '/admin/announcements'
+    | '/admin/books'
+    | '/admin/bus'
+    | '/admin/lost-found'
+    | '/admin/notes'
+    | '/admin/reports'
+    | '/api/chat'
+    | '/app/announcements'
+    | '/app/assistant'
+    | '/app/books'
+    | '/app/bus'
+    | '/app/lost-found'
+    | '/app/notes'
+    | '/app/profile'
+    | '/admin/'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/forgot'
+    | '/login'
+    | '/register'
+    | '/role'
+    | '/admin/announcements'
+    | '/admin/books'
+    | '/admin/bus'
+    | '/admin/lost-found'
+    | '/admin/notes'
+    | '/admin/reports'
+    | '/api/chat'
+    | '/app/announcements'
+    | '/app/assistant'
+    | '/app/books'
+    | '/app/bus'
+    | '/app/lost-found'
+    | '/app/notes'
+    | '/app/profile'
+    | '/admin'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/app'
+    | '/forgot'
+    | '/login'
+    | '/register'
+    | '/role'
+    | '/admin/announcements'
+    | '/admin/books'
+    | '/admin/bus'
+    | '/admin/lost-found'
+    | '/admin/notes'
+    | '/admin/reports'
+    | '/api/chat'
+    | '/app/announcements'
+    | '/app/assistant'
+    | '/app/books'
+    | '/app/bus'
+    | '/app/lost-found'
+    | '/app/notes'
+    | '/app/profile'
+    | '/admin/'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
+  ForgotRoute: typeof ForgotRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  RoleRoute: typeof RoleRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/role': {
+      id: '/role'
+      path: '/role'
+      fullPath: '/role'
+      preLoaderRoute: typeof RoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot': {
+      id: '/forgot'
+      path: '/forgot'
+      fullPath: '/forgot'
+      preLoaderRoute: typeof ForgotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +361,177 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notes': {
+      id: '/app/notes'
+      path: '/notes'
+      fullPath: '/app/notes'
+      preLoaderRoute: typeof AppNotesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/lost-found': {
+      id: '/app/lost-found'
+      path: '/lost-found'
+      fullPath: '/app/lost-found'
+      preLoaderRoute: typeof AppLostFoundRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/bus': {
+      id: '/app/bus'
+      path: '/bus'
+      fullPath: '/app/bus'
+      preLoaderRoute: typeof AppBusRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/books': {
+      id: '/app/books'
+      path: '/books'
+      fullPath: '/app/books'
+      preLoaderRoute: typeof AppBooksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/assistant': {
+      id: '/app/assistant'
+      path: '/assistant'
+      fullPath: '/app/assistant'
+      preLoaderRoute: typeof AppAssistantRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/announcements': {
+      id: '/app/announcements'
+      path: '/announcements'
+      fullPath: '/app/announcements'
+      preLoaderRoute: typeof AppAnnouncementsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/notes': {
+      id: '/admin/notes'
+      path: '/notes'
+      fullPath: '/admin/notes'
+      preLoaderRoute: typeof AdminNotesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/lost-found': {
+      id: '/admin/lost-found'
+      path: '/lost-found'
+      fullPath: '/admin/lost-found'
+      preLoaderRoute: typeof AdminLostFoundRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/bus': {
+      id: '/admin/bus'
+      path: '/bus'
+      fullPath: '/admin/bus'
+      preLoaderRoute: typeof AdminBusRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/books': {
+      id: '/admin/books'
+      path: '/books'
+      fullPath: '/admin/books'
+      preLoaderRoute: typeof AdminBooksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/announcements': {
+      id: '/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
+  AdminBooksRoute: typeof AdminBooksRoute
+  AdminBusRoute: typeof AdminBusRoute
+  AdminLostFoundRoute: typeof AdminLostFoundRoute
+  AdminNotesRoute: typeof AdminNotesRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
+  AdminBooksRoute: AdminBooksRoute,
+  AdminBusRoute: AdminBusRoute,
+  AdminLostFoundRoute: AdminLostFoundRoute,
+  AdminNotesRoute: AdminNotesRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface AppRouteChildren {
+  AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppAssistantRoute: typeof AppAssistantRoute
+  AppBooksRoute: typeof AppBooksRoute
+  AppBusRoute: typeof AppBusRoute
+  AppLostFoundRoute: typeof AppLostFoundRoute
+  AppNotesRoute: typeof AppNotesRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppAssistantRoute: AppAssistantRoute,
+  AppBooksRoute: AppBooksRoute,
+  AppBusRoute: AppBusRoute,
+  AppLostFoundRoute: AppLostFoundRoute,
+  AppNotesRoute: AppNotesRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
+  ForgotRoute: ForgotRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  RoleRoute: RoleRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

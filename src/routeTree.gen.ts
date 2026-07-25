@@ -13,7 +13,14 @@ import { Route as RoleRouteImport } from './routes/role'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppNotesRouteImport } from './routes/app.notes'
+import { Route as AppLostFoundRouteImport } from './routes/app.lost-found'
+import { Route as AppBusRouteImport } from './routes/app.bus'
+import { Route as AppBooksRouteImport } from './routes/app.books'
+import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
 
 const RoleRoute = RoleRouteImport.update({
   id: '/role',
@@ -35,18 +42,60 @@ const ForgotRoute = ForgotRouteImport.update({
   path: '/forgot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotesRoute = AppNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLostFoundRoute = AppLostFoundRouteImport.update({
+  id: '/lost-found',
+  path: '/lost-found',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusRoute = AppBusRouteImport.update({
+  id: '/bus',
+  path: '/bus',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBooksRoute = AppBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/bus': typeof AppBusRoute
+  '/app/lost-found': typeof AppLostFoundRoute
+  '/app/notes': typeof AppNotesRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,25 +103,75 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/bus': typeof AppBusRoute
+  '/app/lost-found': typeof AppLostFoundRoute
+  '/app/notes': typeof AppNotesRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/role': typeof RoleRoute
+  '/app/announcements': typeof AppAnnouncementsRoute
+  '/app/books': typeof AppBooksRoute
+  '/app/bus': typeof AppBusRoute
+  '/app/lost-found': typeof AppLostFoundRoute
+  '/app/notes': typeof AppNotesRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forgot' | '/login' | '/register' | '/role'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/forgot'
+    | '/login'
+    | '/register'
+    | '/role'
+    | '/app/announcements'
+    | '/app/books'
+    | '/app/bus'
+    | '/app/lost-found'
+    | '/app/notes'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot' | '/login' | '/register' | '/role'
-  id: '__root__' | '/' | '/forgot' | '/login' | '/register' | '/role'
+  to:
+    | '/'
+    | '/forgot'
+    | '/login'
+    | '/register'
+    | '/role'
+    | '/app/announcements'
+    | '/app/books'
+    | '/app/bus'
+    | '/app/lost-found'
+    | '/app/notes'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/forgot'
+    | '/login'
+    | '/register'
+    | '/role'
+    | '/app/announcements'
+    | '/app/books'
+    | '/app/bus'
+    | '/app/lost-found'
+    | '/app/notes'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
@@ -109,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -116,11 +222,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notes': {
+      id: '/app/notes'
+      path: '/notes'
+      fullPath: '/app/notes'
+      preLoaderRoute: typeof AppNotesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/lost-found': {
+      id: '/app/lost-found'
+      path: '/lost-found'
+      fullPath: '/app/lost-found'
+      preLoaderRoute: typeof AppLostFoundRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/bus': {
+      id: '/app/bus'
+      path: '/bus'
+      fullPath: '/app/bus'
+      preLoaderRoute: typeof AppBusRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/books': {
+      id: '/app/books'
+      path: '/books'
+      fullPath: '/app/books'
+      preLoaderRoute: typeof AppBooksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/announcements': {
+      id: '/app/announcements'
+      path: '/announcements'
+      fullPath: '/app/announcements'
+      preLoaderRoute: typeof AppAnnouncementsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppBooksRoute: typeof AppBooksRoute
+  AppBusRoute: typeof AppBusRoute
+  AppLostFoundRoute: typeof AppLostFoundRoute
+  AppNotesRoute: typeof AppNotesRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppBooksRoute: AppBooksRoute,
+  AppBusRoute: AppBusRoute,
+  AppLostFoundRoute: AppLostFoundRoute,
+  AppNotesRoute: AppNotesRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,

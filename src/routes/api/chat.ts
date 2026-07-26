@@ -118,14 +118,22 @@ export const Route = createFileRoute("/api/chat")({
         const msgs = Array.isArray(body.messages) ? body.messages : [];
         if (msgs.length === 0) return new Response("No messages", { status: 400 });
 
-        // Map client roles to Gemini-compatible roles. Gemini only accepts user/model roles.
-        const geminiMessages = [
-          { role: "user", content: SYSTEM_PROMPT },
-          ...msgs.map((m) => ({
+        // Gemini requires strict user/model alternation. Embed the system prompt into the first
+        // user message so the live app data remains the single source of truth for campus answers.
+        let systemInjected = false;
+        const geminiMessages = msgs.map((m) => {
+          if (m.role === "user" && !systemInjected) {
+            systemInjected = true;
+            return {
+              role: "user",
+              content: `${SYSTEM_PROMPT}\n\nStudent question: ${m.content}`,
+            };
+          }
+          return {
             role: m.role === "assistant" ? "model" : "user",
             content: m.content,
-          })),
-        ];
+          };
+        });
 
         const upstream = await fetch(
           "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",

@@ -105,9 +105,10 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const groqKey = process.env.GROQ_API_KEY;
         const geminiKey = process.env.GEMINI_API_KEY;
         const lovableKey = process.env.LOVABLE_API_KEY;
-        if (!geminiKey && !lovableKey) {
+        if (!groqKey && !geminiKey && !lovableKey) {
           return new Response("Missing AI API key", { status: 500 });
         }
         let body: { messages?: Array<{ role: string; content: string }> };
@@ -119,7 +120,7 @@ export const Route = createFileRoute("/api/chat")({
         const msgs = Array.isArray(body.messages) ? body.messages : [];
         if (msgs.length === 0) return new Response("No messages", { status: 400 });
 
-        // Messages shaped for Lovable AI Gateway (OpenAI-compatible, system role supported).
+        // OpenAI-compatible messages (Groq + Lovable both accept system role).
         const openAiMessages = [
           { role: "system", content: SYSTEM_PROMPT },
           ...msgs.map((m) => ({ role: m.role, content: m.content })),
@@ -142,8 +143,21 @@ export const Route = createFileRoute("/api/chat")({
           };
         });
 
-        let upstream: Response;
-        let fallback = false;
+        async function callGroq() {
+          return fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${groqKey}`,
+            },
+            body: JSON.stringify({
+              model: "llama-3.3-70b-versatile",
+              stream: true,
+              temperature: 0.6,
+              messages: openAiMessages,
+            }),
+          });
+        }
 
         async function callGemini() {
           return fetch(
@@ -178,16 +192,26 @@ export const Route = createFileRoute("/api/chat")({
           });
         }
 
-        if (geminiKey) {
+        let upstream: Response | null = null;
+        let provider = "";
+
+        // Priority: Groq (fast, generous free tier) -> Gemini -> Lovable.
+        if (groqKey) {
+          upstream = await callGroq();
+          provider = "groq";
+        }
+        if ((!upstream || !upstream.ok) && geminiKey) {
           upstream = await callGemini();
-          if (!upstream.ok && lovableKey) {
-            upstream = await callLovable();
-            fallback = true;
-          }
-        } else {
+          provider = "gemini";
+        }
+        if ((!upstream || !upstream.ok) && lovableKey) {
           upstream = await callLovable();
+          provider = "lovable";
         }
 
+        if (!upstream) {
+          return new Response("No AI provider available", { status: 500 });
+        }
         if (upstream.status === 429) {
           return new Response("Rate limit reached. Please slow down and try again.", {
             status: 429,
@@ -202,10 +226,11 @@ export const Route = createFileRoute("/api/chat")({
           headers: {
             "Content-Type": "text/event-stream",
             "Cache-Control": "no-cache, no-transform",
-            ...(fallback ? { "X-Assistant-Provider": "lovable" } : {}),
+            "X-Assistant-Provider": provider,
           },
         });
       },
+
     },
   },
 });

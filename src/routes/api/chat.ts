@@ -105,9 +105,9 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env.LOVABLE_API_KEY;
+        const key = process.env.GEMINI_API_KEY;
         if (!key) {
-          return new Response("Missing LOVABLE_API_KEY", { status: 500 });
+          return new Response("Missing GEMINI_API_KEY", { status: 500 });
         }
         let body: { messages?: Array<{ role: string; content: string }> };
         try {
@@ -118,24 +118,35 @@ export const Route = createFileRoute("/api/chat")({
         const msgs = Array.isArray(body.messages) ? body.messages : [];
         if (msgs.length === 0) return new Response("No messages", { status: 400 });
 
-        const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Lovable-API-Key": key,
-          },
-          body: JSON.stringify({
-            model: "google/gemini-3.5-flash",
-            stream: true,
-            messages: [
-              { role: "system", content: SYSTEM_PROMPT },
-              ...msgs.map((m) => ({ role: m.role, content: m.content })),
-            ],
-          }),
-        });
+        // Map client roles to Gemini-compatible roles. Gemini only accepts user/model roles.
+        const geminiMessages = [
+          { role: "user", content: SYSTEM_PROMPT },
+          ...msgs.map((m) => ({
+            role: m.role === "assistant" ? "model" : "user",
+            content: m.content,
+          })),
+        ];
 
-        if (upstream.status === 429 || upstream.status === 402) {
-          return new Response(await upstream.text(), { status: upstream.status });
+        const upstream = await fetch(
+          "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${key}`,
+            },
+            body: JSON.stringify({
+              model: "gemini-2.5-flash",
+              stream: true,
+              messages: geminiMessages,
+            }),
+          },
+        );
+
+        if (upstream.status === 429) {
+          return new Response("Rate limit reached. Please slow down and try again.", {
+            status: 429,
+          });
         }
         if (!upstream.ok || !upstream.body) {
           const text = await upstream.text().catch(() => "AI error");

@@ -105,9 +105,10 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env.GEMINI_API_KEY;
-        if (!key) {
-          return new Response("Missing GEMINI_API_KEY", { status: 500 });
+        const geminiKey = process.env.GEMINI_API_KEY;
+        const lovableKey = process.env.LOVABLE_API_KEY;
+        if (!geminiKey && !lovableKey) {
+          return new Response("Missing AI API key", { status: 500 });
         }
         let body: { messages?: Array<{ role: string; content: string }> };
         try {
@@ -117,6 +118,12 @@ export const Route = createFileRoute("/api/chat")({
         }
         const msgs = Array.isArray(body.messages) ? body.messages : [];
         if (msgs.length === 0) return new Response("No messages", { status: 400 });
+
+        // Messages shaped for Lovable AI Gateway (OpenAI-compatible, system role supported).
+        const openAiMessages = [
+          { role: "system", content: SYSTEM_PROMPT },
+          ...msgs.map((m) => ({ role: m.role, content: m.content })),
+        ];
 
         // Gemini requires strict user/model alternation. Embed the system prompt into the first
         // user message so the live app data remains the single source of truth for campus answers.
@@ -135,21 +142,51 @@ export const Route = createFileRoute("/api/chat")({
           };
         });
 
-        const upstream = await fetch(
-          "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-          {
+        let upstream: Response;
+        let fallback = false;
+
+        async function callGemini() {
+          return fetch(
+            "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${geminiKey}`,
+              },
+              body: JSON.stringify({
+                model: "gemini-2.0-flash-001",
+                stream: true,
+                messages: geminiMessages,
+              }),
+            },
+          );
+        }
+
+        async function callLovable() {
+          return fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${key}`,
+              "Lovable-API-Key": lovableKey!,
             },
             body: JSON.stringify({
-              model: "gemini-2.0-flash-001",
+              model: "openai/gpt-5.5",
               stream: true,
-              messages: geminiMessages,
+              messages: openAiMessages,
             }),
-          },
-        );
+          });
+        }
+
+        if (geminiKey) {
+          upstream = await callGemini();
+          if (!upstream.ok && upstream.status !== 429 && lovableKey) {
+            upstream = await callLovable();
+            fallback = true;
+          }
+        } else {
+          upstream = await callLovable();
+        }
 
         if (upstream.status === 429) {
           return new Response("Rate limit reached. Please slow down and try again.", {
@@ -165,6 +202,7 @@ export const Route = createFileRoute("/api/chat")({
           headers: {
             "Content-Type": "text/event-stream",
             "Cache-Control": "no-cache, no-transform",
+            ...(fallback ? { "X-Assistant-Provider": "lovable" } : {}),
           },
         });
       },

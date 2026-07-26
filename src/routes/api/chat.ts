@@ -144,7 +144,7 @@ export const Route = createFileRoute("/api/chat")({
               Authorization: `Bearer ${key}`,
             },
             body: JSON.stringify({
-              model: "gemini-1.5-flash-latest",
+              model: "gemini-2.0-flash",
               stream: true,
               messages: geminiMessages,
             }),

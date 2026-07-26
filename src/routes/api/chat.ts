@@ -180,7 +180,7 @@ export const Route = createFileRoute("/api/chat")({
 
         if (geminiKey) {
           upstream = await callGemini();
-          if (!upstream.ok && upstream.status !== 429 && lovableKey) {
+          if (!upstream.ok && lovableKey) {
             upstream = await callLovable();
             fallback = true;
           }

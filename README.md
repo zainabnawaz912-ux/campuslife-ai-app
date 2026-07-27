@@ -89,7 +89,7 @@ https://campuslife-ai-smart-app.vercel.app/
 
 https://github.com/zainabnawaz912-ux/campuslife-ai-app
 
-Screenshots
+# Screenshots
 
 <img width="720" height="1600" alt="Image" src="https://github.com/user-attachments/assets/aad89720-5a97-4fcd-9564-9f6430cd0113" />
 

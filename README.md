@@ -42,21 +42,49 @@ CampusLife AI combines multiple campus services into one intelligent platform wh
 - Report and search lost & found items
 - Receive assistance from an AI-powered campus and study assistant
 
-# AI Integration
+# AI Feature
 
-CampusLife AI integrates the **Groq API** to power its intelligent AI Assistant.
+CampusLife AI includes an intelligent AI Assistant powered by the _**Groq API**_ using the _**Llama**_ language model.
 
-The AI Assistant can:
+The AI Assistant serves two main purposes:
 
-- Answer academic questions
-- Explain Physics, Chemistry, Mathematics, and Computer Science concepts
+### Campus Assistant
+It helps students by answering questions related to the CampusLife AI application, including:
+
+- Campus announcements
+- Bus routes and delay updates
+- Notes section
+- Book exchange
+- Lost & Found
+- Student profile features
+- Application navigation and guidance
+
+### Study Assistant
+The AI also acts as a learning companion by helping students:
+
+- Explain academic concepts
+- Answer study-related questions
+- Summarize notes
 - Generate quizzes and MCQs
-- Summarize study notes
-- Provide exam preparation tips
-- Guide users through the application's features
-- Answer campus-related questions based on available application data
+- Assist with exam preparation
+- Provide study tips and learning guidance
 
-The assistant is designed to deliver fast, accurate, and helpful responses while enhancing the overall student experience.
+The assistant delivers fast, accurate, and user-friendly responses to improve both the campus experience and academic learning.
+
+# AI System Prompt
+
+The AI Assistant is instructed to:
+
+- Act as a friendly and professional CampusLife AI Assistant.
+- Help users navigate all features of the application.
+- Answer questions about campus announcements, bus updates, notes, book exchange, lost & found, and student services.
+- Act as a study assistant by explaining academic concepts in simple language.
+- Generate quizzes, MCQs, summaries, and study tips when requested.
+- Provide clear, accurate, and helpful responses.
+- Ask follow-up questions whenever additional information is needed.
+- Maintain a respectful, supportive, and professional tone.
+- Never generate harmful, misleading, or inappropriate content.
+- If information is unavailable, politely inform the user instead of inventing an answer.
 
 # Technologies Used
 
@@ -65,6 +93,7 @@ The assistant is designed to deliver fast, accurate, and helpful responses while
 - TypeScript
 - Tailwind CSS
 - Groq API
+- Llama Language Model 
 - GitHub
 - Vercel
 
@@ -76,8 +105,6 @@ CampusLife AI is fully responsive and optimized for:
 - Laptop
 - Tablet
 - Mobile Devices
-
----
 
 # Live Demo
 
@@ -100,6 +127,34 @@ https://github.com/zainabnawaz912-ux/campuslife-ai-app
 <img width="720" height="1600" alt="Image" src="https://github.com/user-attachments/assets/49c90e53-2c18-40b4-be44-722fc18b9362" />
 
 <img width="720" height="1600" alt="Image" src="https://github.com/user-attachments/assets/c9595809-824c-4116-b501-e81bc0e2b9d8" />
+
+# How to Run the Project
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/zainabnawaz912-ux/campuslife-ai-app.git
+```
+
+2. Open the project folder:
+
+```bash
+cd campuslife-ai-app
+```
+
+3. Install the required dependencies:
+
+```bash
+npm install
+```
+
+4. Start the application:
+
+```bash
+npm run dev
+```
+
+Alternatively, the application can be accessed directly through the deployed Vercel URL.
 
  # Future Enhancements
 

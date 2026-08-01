@@ -199,8 +199,9 @@ function NotesPage() {
         </TabsContent>
       </Tabs>
     </>
-
+  );
 }
+
 
 function EmptyState({ title, hint }: { title: string; hint: string }) {
   return (

@@ -27,7 +27,7 @@ export async function extractPdfText(
     onProgress?.(i, total);
   }
 
-  await doc.destroy();
+  void doc.cleanup();
   return chunks.join("\n\n").trim();
 }
 

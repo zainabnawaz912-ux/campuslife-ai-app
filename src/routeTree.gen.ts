@@ -25,6 +25,7 @@ import { Route as AppBusRouteImport } from './routes/app.bus'
 import { Route as AppBooksRouteImport } from './routes/app.books'
 import { Route as AppAssistantRouteImport } from './routes/app.assistant'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
+import { Route as ApiLearnRouteImport } from './routes/api/learn'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminNotesRouteImport } from './routes/admin.notes'
@@ -113,6 +114,11 @@ const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiLearnRoute = ApiLearnRouteImport.update({
+  id: '/api/learn',
+  path: '/api/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/admin/notes': typeof AdminNotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/learn': typeof ApiLearnRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin/notes': typeof AdminNotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/learn': typeof ApiLearnRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/admin/notes': typeof AdminNotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/learn': typeof ApiLearnRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/assistant': typeof AppAssistantRoute
   '/app/books': typeof AppBooksRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/admin/notes'
     | '/admin/reports'
     | '/api/chat'
+    | '/api/learn'
     | '/app/announcements'
     | '/app/assistant'
     | '/app/books'
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/admin/notes'
     | '/admin/reports'
     | '/api/chat'
+    | '/api/learn'
     | '/app/announcements'
     | '/app/assistant'
     | '/app/books'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/admin/notes'
     | '/admin/reports'
     | '/api/chat'
+    | '/api/learn'
     | '/app/announcements'
     | '/app/assistant'
     | '/app/books'
@@ -308,6 +320,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   RoleRoute: typeof RoleRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiLearnRoute: typeof ApiLearnRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -424,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/learn': {
+      id: '/api/learn'
+      path: '/api/learn'
+      fullPath: '/api/learn'
+      preLoaderRoute: typeof ApiLearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -531,6 +551,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   RoleRoute: RoleRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiLearnRoute: ApiLearnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

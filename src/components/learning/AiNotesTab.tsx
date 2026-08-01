@@ -233,7 +233,7 @@ export function AiNotesTab() {
                 <div className="min-w-0">
                   <div className="truncate font-semibold">{fileName}</div>
                   <div className="text-xs text-muted-foreground">
-                    {Math.round(doc.length / 1000)}k characters ready for AI
+                    {doc.length.toLocaleString()} characters ready for AI
                   </div>
                 </div>
               </div>

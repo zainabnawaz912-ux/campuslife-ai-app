@@ -21,6 +21,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AiNotesTab } from "@/components/learning/AiNotesTab";
+import { StudyCoachTab } from "@/components/learning/StudyCoachTab";
+
 import { departments, notes, semesters } from "@/lib/mock-data";
 import { toast } from "sonner";
 

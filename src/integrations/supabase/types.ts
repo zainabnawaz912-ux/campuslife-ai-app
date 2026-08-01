@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      books: {
+        Row: {
+          author: string
+          condition: string
+          contact: string
+          cover: string | null
+          created_at: string
+          department: string
+          description: string
+          id: string
+          mode: string
+          owner: string
+          price: string | null
+          semester: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          condition?: string
+          contact: string
+          cover?: string | null
+          created_at?: string
+          department?: string
+          description?: string
+          id?: string
+          mode?: string
+          owner: string
+          price?: string | null
+          semester?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          condition?: string
+          contact?: string
+          cover?: string | null
+          created_at?: string
+          department?: string
+          description?: string
+          id?: string
+          mode?: string
+          owner?: string
+          price?: string | null
+          semester?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lost_items: {
+        Row: {
+          contact: string
+          created_at: string
+          date: string
+          description: string
+          id: string
+          image: string | null
+          location: string
+          status: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          contact: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          image?: string | null
+          location: string
+          status?: string
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          contact?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          image?: string | null
+          location?: string
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

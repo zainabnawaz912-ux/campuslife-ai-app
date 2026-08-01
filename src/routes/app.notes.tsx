@@ -188,8 +188,18 @@ function NotesPage() {
           ))}
         </div>
       )}
+        </TabsContent>
+
+        <TabsContent value="ai" className="animate-in fade-in-50">
+          <AiNotesTab />
+        </TabsContent>
+
+        <TabsContent value="coach" className="animate-in fade-in-50">
+          <StudyCoachTab />
+        </TabsContent>
+      </Tabs>
     </>
-  );
+
 }
 
 function EmptyState({ title, hint }: { title: string; hint: string }) {

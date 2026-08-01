@@ -119,7 +119,16 @@ function NotesPage() {
         }
       />
 
+      <Tabs defaultValue="library" className="w-full">
+        <TabsList className="mb-5 grid w-full grid-cols-3 rounded-xl sm:w-auto sm:inline-grid">
+          <TabsTrigger value="library" className="rounded-lg text-xs sm:text-sm">Notes library</TabsTrigger>
+          <TabsTrigger value="ai" className="rounded-lg text-xs sm:text-sm">AI Notes</TabsTrigger>
+          <TabsTrigger value="coach" className="rounded-lg text-xs sm:text-sm">AI Study Coach</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="library" className="animate-in fade-in-50">
       <Card className="mb-5">
+
         <CardContent className="grid gap-3 py-4 md:grid-cols-[minmax(0,1fr)_auto_auto_auto]">
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />

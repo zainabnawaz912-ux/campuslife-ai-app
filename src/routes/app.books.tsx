@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Heart, MessageCircle, Plus, Search } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Heart, Loader2, MessageCircle, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/AppShell";
+import { AddBookDialog } from "@/components/AddBookDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,7 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { books } from "@/lib/mock-data";
+import { books as seedBooks } from "@/lib/mock-data";
+import { booksQueryKey, fetchBooks } from "@/lib/campus-data";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/books")({
@@ -31,6 +34,13 @@ function BooksPage() {
   const [mode, setMode] = useState<string>("all");
   const [favs, setFavs] = useState<Set<string>>(new Set());
 
+  const { data: saved = [], isLoading, isError } = useQuery({
+    queryKey: booksQueryKey,
+    queryFn: fetchBooks,
+  });
+
+  const books = useMemo(() => [...saved, ...seedBooks], [saved]);
+
   const filtered = useMemo(() => {
     return books.filter((b) => {
       if (mode !== "all" && b.mode !== mode) return false;
@@ -38,19 +48,16 @@ function BooksPage() {
         return false;
       return true;
     });
-  }, [q, mode]);
+  }, [q, mode, books]);
 
   return (
     <>
       <PageHeader
         title="Book exchange"
         subtitle="Give textbooks a second life — sell, swap or donate."
-        action={
-          <Button className="rounded-xl" onClick={() => toast.success("Listing form opened (demo).")}>
-            <Plus size={16} /> List a book
-          </Button>
-        }
+        action={<AddBookDialog />}
       />
+
 
       <Card className="mb-5">
         <CardContent className="grid gap-3 py-4 md:grid-cols-[minmax(0,1fr)_auto]">
@@ -70,7 +77,19 @@ function BooksPage() {
         </CardContent>
       </Card>
 
+      {isLoading && (
+        <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 size={14} className="animate-spin" /> Loading latest listings…
+        </div>
+      )}
+      {isError && (
+        <div className="mb-4 text-sm text-destructive">
+          Couldn't load new listings. Showing available books.
+        </div>
+      )}
+
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
         {filtered.map((b) => (
           <Card key={b.id} className="group overflow-hidden pt-0 transition hover:-translate-y-0.5 hover:shadow-glow">
             <div className="relative aspect-[4/3] overflow-hidden bg-muted">

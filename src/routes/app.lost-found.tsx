@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Plus, Search } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2, MapPin, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/AppShell";
+import { ReportItemDialog } from "@/components/ReportItemDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { lostItems } from "@/lib/mock-data";
+import { lostItems as seedItems } from "@/lib/mock-data";
+import { fetchLostItems, lostItemsQueryKey } from "@/lib/campus-data";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/lost-found")({
@@ -24,15 +27,22 @@ function LostFound() {
   const [tab, setTab] = useState<string>("all");
   const [q, setQ] = useState("");
 
+  const { data: saved = [], isLoading, isError } = useQuery({
+    queryKey: lostItemsQueryKey,
+    queryFn: fetchLostItems,
+  });
+
+  const items = useMemo(() => [...saved, ...seedItems], [saved]);
+
   const filtered = useMemo(
     () =>
-      lostItems.filter((i) => {
+      items.filter((i) => {
         if (tab !== "all" && i.type.toLowerCase() !== tab) return false;
         if (q && !`${i.title} ${i.location} ${i.description}`.toLowerCase().includes(q.toLowerCase()))
           return false;
         return true;
       }),
-    [tab, q],
+    [tab, q, items],
   );
 
   return (
@@ -42,12 +52,8 @@ function LostFound() {
         subtitle="Reunite belongings with their owners across campus."
         action={
           <div className="flex gap-2">
-            <Button variant="outline" className="rounded-xl" onClick={() => toast.success("Report Lost — form opened (demo)")}>
-              <Plus size={16} /> Report Lost
-            </Button>
-            <Button className="rounded-xl" onClick={() => toast.success("Report Found — form opened (demo)")}>
-              <Plus size={16} /> Report Found
-            </Button>
+            <ReportItemDialog type="Lost" />
+            <ReportItemDialog type="Found" />
           </div>
         }
       />
@@ -67,6 +73,18 @@ function LostFound() {
           </Tabs>
         </CardContent>
       </Card>
+
+      {isLoading && (
+        <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 size={14} className="animate-spin" /> Loading latest reports…
+        </div>
+      )}
+      {isError && (
+        <div className="mb-4 text-sm text-destructive">
+          Couldn't load new reports. Showing available items.
+        </div>
+      )}
+
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((i) => (

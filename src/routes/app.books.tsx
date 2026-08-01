@@ -77,7 +77,19 @@ function BooksPage() {
         </CardContent>
       </Card>
 
+      {isLoading && (
+        <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 size={14} className="animate-spin" /> Loading latest listings…
+        </div>
+      )}
+      {isError && (
+        <div className="mb-4 text-sm text-destructive">
+          Couldn't load new listings. Showing available books.
+        </div>
+      )}
+
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
         {filtered.map((b) => (
           <Card key={b.id} className="group overflow-hidden pt-0 transition hover:-translate-y-0.5 hover:shadow-glow">
             <div className="relative aspect-[4/3] overflow-hidden bg-muted">

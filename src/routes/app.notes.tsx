@@ -62,8 +62,9 @@ function NotesPage() {
   return (
     <>
       <PageHeader
-        title="Notes library"
-        subtitle="Class notes, lab manuals and revision material shared by peers."
+        title="AI Learning Hub"
+        subtitle="Shared notes, AI-powered study tools and your personal study coach."
+
         action={
           <Dialog>
             <DialogTrigger asChild>

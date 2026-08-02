@@ -37,6 +37,12 @@ export type LostItem = {
   image: string;
 };
 
+export type BusStop = {
+  name: string;
+  time: string;
+  passed: boolean;
+};
+
 export type BusRoute = {
   id: string;
   number: string;
@@ -48,7 +54,10 @@ export type BusRoute = {
   status: "On Time" | "Delayed" | "Cancelled" | "Route Changed";
   note: string;
   eta: string;
+  stops: BusStop[];
+  lastUpdated: string;
 };
+
 
 export type Announcement = {
   id: string;
@@ -104,12 +113,42 @@ export const lostItems: LostItem[] = [
 ];
 
 export const buses: BusRoute[] = [
-  { id: "bus1", number: "Bus 01", route: "Campus → City Centre", pickup: "Main Gate 7:30 AM", drop: "City Centre 8:20 AM", driver: "Ramesh K.", driverPhone: "+91 98xxx 91234", status: "On Time", note: "Regular schedule.", eta: "Arrives in 8 min" },
-  { id: "bus2", number: "Bus 02", route: "Campus → Airport Road", pickup: "Gate B 7:45 AM", drop: "Airport Road 8:35 AM", driver: "Suresh M.", driverPhone: "+91 98xxx 55112", status: "Delayed", note: "Traffic near flyover, delayed 15 min.", eta: "Arrives in 22 min" },
-  { id: "bus3", number: "Bus 03", route: "Campus → Rail Station", pickup: "Hostel Block 4:30 PM", drop: "Rail Station 5:10 PM", driver: "Anil T.", driverPhone: "+91 98xxx 77332", status: "Route Changed", note: "Diverted via Ring Road today.", eta: "Arrives in 12 min" },
-  { id: "bus4", number: "Bus 04", route: "Campus → Tech Park", pickup: "Gate C 8:00 AM", drop: "Tech Park 8:40 AM", driver: "Prakash V.", driverPhone: "+91 98xxx 66221", status: "Cancelled", note: "Cancelled due to maintenance.", eta: "—" },
-  { id: "bus5", number: "Bus 05", route: "Campus → North Colony", pickup: "Library Gate 5:00 PM", drop: "North Colony 5:45 PM", driver: "Vikram J.", driverPhone: "+91 98xxx 88443", status: "On Time", note: "Running on schedule.", eta: "Arrives in 30 min" },
+  { id: "bus1", number: "Bus 01", route: "Campus → City Centre", pickup: "Main Gate 7:30 AM", drop: "City Centre 8:20 AM", driver: "Ramesh K.", driverPhone: "+91 98xxx 91234", status: "On Time", note: "Regular schedule.", eta: "Arrives in 8 min", lastUpdated: "2 min ago", stops: [
+    { name: "Main Gate", time: "7:30 AM", passed: true },
+    { name: "Hostel Circle", time: "7:38 AM", passed: true },
+    { name: "MG Road Junction", time: "7:52 AM", passed: true },
+    { name: "Market Square", time: "8:06 AM", passed: false },
+    { name: "City Centre", time: "8:20 AM", passed: false },
+  ] },
+  { id: "bus2", number: "Bus 02", route: "Campus → Airport Road", pickup: "Gate B 7:45 AM", drop: "Airport Road 8:35 AM", driver: "Suresh M.", driverPhone: "+91 98xxx 55112", status: "Delayed", note: "Traffic near flyover, delayed 15 min.", eta: "Arrives in 22 min", lastUpdated: "5 min ago", stops: [
+    { name: "Gate B", time: "7:45 AM", passed: true },
+    { name: "Science Block", time: "7:52 AM", passed: true },
+    { name: "Flyover Crossing", time: "8:10 AM", passed: false },
+    { name: "Cargo Road", time: "8:24 AM", passed: false },
+    { name: "Airport Road", time: "8:35 AM", passed: false },
+  ] },
+  { id: "bus3", number: "Bus 03", route: "Campus → Rail Station", pickup: "Hostel Block 4:30 PM", drop: "Rail Station 5:10 PM", driver: "Anil T.", driverPhone: "+91 98xxx 77332", status: "Route Changed", note: "Diverted via Ring Road today.", eta: "Arrives in 12 min", lastUpdated: "just now", stops: [
+    { name: "Hostel Block", time: "4:30 PM", passed: true },
+    { name: "Admin Building", time: "4:36 PM", passed: true },
+    { name: "Ring Road (diversion)", time: "4:50 PM", passed: false },
+    { name: "Old Bus Stand", time: "5:00 PM", passed: false },
+    { name: "Rail Station", time: "5:10 PM", passed: false },
+  ] },
+  { id: "bus4", number: "Bus 04", route: "Campus → Tech Park", pickup: "Gate C 8:00 AM", drop: "Tech Park 8:40 AM", driver: "Prakash V.", driverPhone: "+91 98xxx 66221", status: "Cancelled", note: "Cancelled due to maintenance.", eta: "—", lastUpdated: "20 min ago", stops: [
+    { name: "Gate C", time: "8:00 AM", passed: false },
+    { name: "Sports Complex", time: "8:10 AM", passed: false },
+    { name: "IT Corridor", time: "8:26 AM", passed: false },
+    { name: "Tech Park", time: "8:40 AM", passed: false },
+  ] },
+  { id: "bus5", number: "Bus 05", route: "Campus → North Colony", pickup: "Library Gate 5:00 PM", drop: "North Colony 5:45 PM", driver: "Vikram J.", driverPhone: "+91 98xxx 88443", status: "On Time", note: "Running on schedule.", eta: "Arrives in 30 min", lastUpdated: "3 min ago", stops: [
+    { name: "Library Gate", time: "5:00 PM", passed: true },
+    { name: "North Gate", time: "5:08 PM", passed: false },
+    { name: "Green Park", time: "5:22 PM", passed: false },
+    { name: "Sector 9", time: "5:34 PM", passed: false },
+    { name: "North Colony", time: "5:45 PM", passed: false },
+  ] },
 ];
+
 
 export const announcements: Announcement[] = [
   { id: "a1", title: "Mid-Semester Exam Schedule Released", category: "Exam", body: "Exams begin Nov 12. Check the notice board and student portal for your seating plan.", date: "Today", pinned: true },

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bus, MapPin, Phone, User } from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "@/components/AppShell";
@@ -108,11 +108,18 @@ function BusPage() {
               <p className="mt-2 text-xs text-muted-foreground">{b.note}</p>
 
               <div className="mt-4 flex gap-2">
-                <Button variant="outline" size="sm" className="rounded-lg">
-                  <Phone size={14} /> {b.driverPhone}
+                <Button variant="outline" size="sm" className="rounded-lg" asChild>
+                  <a href={`tel:${b.driverPhone.replace(/\s/g, "")}`}>
+                    <Phone size={14} /> {b.driverPhone}
+                  </a>
                 </Button>
-                <Button size="sm" className="rounded-lg">Track live</Button>
+                <Button size="sm" className="rounded-lg" asChild>
+                  <Link to="/app/track/$busId" params={{ busId: b.id }}>
+                    Track live
+                  </Link>
+                </Button>
               </div>
+
             </CardContent>
           </Card>
         ))}

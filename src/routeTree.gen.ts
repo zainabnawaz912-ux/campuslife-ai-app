@@ -33,6 +33,7 @@ import { Route as AdminLostFoundRouteImport } from './routes/admin.lost-found'
 import { Route as AdminBusRouteImport } from './routes/admin.bus'
 import { Route as AdminBooksRouteImport } from './routes/admin.books'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
+import { Route as AppTrackBusIdRouteImport } from './routes/app.track.$busId'
 
 const RoleRoute = RoleRouteImport.update({
   id: '/role',
@@ -154,6 +155,11 @@ const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AdminRoute,
 } as any)
+const AppTrackBusIdRoute = AppTrackBusIdRouteImport.update({
+  id: '/track/$busId',
+  path: '/track/$busId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/app/profile': typeof AppProfileRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/app/track/$busId': typeof AppTrackBusIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByTo {
   '/app/profile': typeof AppProfileRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/app/track/$busId': typeof AppTrackBusIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -231,6 +239,7 @@ export interface FileRoutesById {
   '/app/profile': typeof AppProfileRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/app/track/$busId': typeof AppTrackBusIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/admin/'
     | '/app/'
+    | '/app/track/$busId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/admin'
     | '/app'
+    | '/app/track/$busId'
   id:
     | '__root__'
     | '/'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/admin/'
     | '/app/'
+    | '/app/track/$busId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -493,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnnouncementsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/app/track/$busId': {
+      id: '/app/track/$busId'
+      path: '/track/$busId'
+      fullPath: '/app/track/$busId'
+      preLoaderRoute: typeof AppTrackBusIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -527,6 +546,7 @@ interface AppRouteChildren {
   AppNotesRoute: typeof AppNotesRoute
   AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppTrackBusIdRoute: typeof AppTrackBusIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -538,6 +558,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppNotesRoute: AppNotesRoute,
   AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
+  AppTrackBusIdRoute: AppTrackBusIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

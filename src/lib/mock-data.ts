@@ -37,6 +37,12 @@ export type LostItem = {
   image: string;
 };
 
+export type BusStop = {
+  name: string;
+  time: string;
+  passed: boolean;
+};
+
 export type BusRoute = {
   id: string;
   number: string;
@@ -48,7 +54,10 @@ export type BusRoute = {
   status: "On Time" | "Delayed" | "Cancelled" | "Route Changed";
   note: string;
   eta: string;
+  stops: BusStop[];
+  lastUpdated: string;
 };
+
 
 export type Announcement = {
   id: string;

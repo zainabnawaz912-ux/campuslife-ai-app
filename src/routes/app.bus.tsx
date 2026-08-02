@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bus, MapPin, Phone, User } from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "@/components/AppShell";
